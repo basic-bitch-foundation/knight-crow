@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=4 uid="uid://dhk74gbl8hh16"]
+
+[ext_resource type="Script" uid="uid://c6aul38x7iq5f" path="res://map.gd" id="1_c7s6e"]
+[ext_resource type="PackedScene" uid="uid://cjp30fovbonl8" path="res://player.tscn" id="2_p5pve"]
+[ext_resource type="Texture2D" uid="uid://bck6tncerfqfj" path="res://backgroundknight_crow.png" id="3_urblq"]
+[ext_resource type="Texture2D" uid="uid://ba8lijeba7igq" path="res://towers_crow.png" id="5_urblq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iw27f"]
+texture = ExtResource("5_urblq")
+texture_region_size = Vector2i(15, 16)
+1:2/size_in_atlas = Vector2i(3, 3)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-1.7524719, -10.833445, -4.6201477, -13.382492, -5.576042, -18.161953, -0.47794724, -22.622784, 3.0269852, -20.710999, 5.2574005, -17.524693, 3.0269852, -17.20606, 3.3456192, -13.382492, 0.47794342, -13.06386, 0.7965698, -8, 5.2574005, -8, 8, -8, 5.2574005, -5.098091, 2.7083588, -4.1422005, 3.3456192, 0.95589066, 8, 0, 8, 8, 13.541801, 5.098091, 18.321266, 12.426601, 16.409477, 22.622784, 1.1152039, 21.348259, -10.355507, 21.666893, -17.046745, 21.029629, -19.595795, 12.426601, -16.728119, 12.107967, -15.453598, 4.4608307, -4.3015213, 3.50494, -8, 5.098091, -10.674133, -0.31863022, -3.9828873, -2.2304153, -5.257408, -4.4608307, -8, -8)
+6:2/size_in_atlas = Vector2i(2, 3)
+6:2/0 = 0
+6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.6471367, -17.843323, -8.284399, -21.666891, 8.603031, -21.029629, 7.3285103, -16.88743, 4.779461, -15.612907, 4.1422005, -1.2745228, 8, 0.95589066, 8, 5.4167213, 5.7353554, 21.029629, -4.779461, 20.710999, -8, 0.63726044, -5.098091, 0.31863022, -4.460829, -15.294275)
+8:0/size_in_atlas = Vector2i(8, 7)
+8:0/0 = 0
+4:1/size_in_atlas = Vector2i(2, 4)
+4:1/next_alternative_id = 2
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -3.3868446, -28.223694, -1.6934242, -26.530273, 8, -8, 8, 8, 4.515789, 32.17501, -7.9026375, 29.352638, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_71pa8"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_iw27f")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_c7s6e")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+tile_set = SubResource("TileSet_71pa8")
+collision_visibility_mode = 1
+format = 2
+
+[node name="towers" type="TileMapLayer" parent="TileMap"]
+use_parent_material = true
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AADi/wcAAAAGAAIAAADk/wgAAAABAAIAAADm/wYAAAABAAIAAADo/wYAAAAEAAEAAADq/wgAAAAGAAIAAADr/wIAAAABAAIAACDk/wAAAAAEAAEAACDn/wAAAAABAAIAACDo/wgAAAAIAAAAAADt/wgAAAABAAIAAADv/wYAAAAGAAIAAADw/wEAAAAGAAIAACDt/wEAAAAEAAEAACDz/wEAAAAEAAEAACDx/wgAAAAGAAIAAADv/wgAAAAGAAIAAADq/wkAAAAGAAIAAADz/wcAAAABAAIAAADz/wkAAAAGAAIAAAD1/wEAAAABAAIAACD3/wMAAAAGAAIAACD2/wgAAAAEAAEAAAD3/wgAAAAGAAIAAAD3/wEAAAAGAAIAAAA=")
+tile_set = SubResource("TileSet_71pa8")
+collision_visibility_mode = 1
+
+[node name="player" parent="." instance=ExtResource("2_p5pve")]
+z_index = 2
+position = Vector2(-2291, 275)
+scale = Vector2(1.5, 1.5)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scale = Vector2(1.5, 1.5)
+transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
+follow_viewport_enabled = true
+
+[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0)
+motion_mirroring = Vector2(5010, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(1144.6666, 204.66667)
+scale = Vector2(10.095598, 9.8910265)
+texture = ExtResource("3_urblq")
+
+[node name="montains" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0)
+motion_mirroring = Vector2(800, 0)
+
+[node name="web" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/web"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(-2293, 283)
