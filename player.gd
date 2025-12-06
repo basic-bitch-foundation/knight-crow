@@ -1,14 +1,13 @@
 extends CharacterBody2D
 
-const xspeed = 200.0
-const fall = 350.0
-const jump = -90.0
+const xspd = 200.0
+const grav = 350.0
+const jmp = -200.0
 const maxfall = 900.0
-
 const tiltup = -30.0
 const tiltdown = 27.0
-const rotup = 1.0
-const rotdown = 2.5
+
+@export var margin = -29.0
 
 @onready var sprite = $AnimatedSprite2D
 @onready var body = $CollisionShape2D
@@ -23,42 +22,47 @@ func _physics_process(delta):
 	if not alive:
 		return
 	
-	velocity.x = xspeed
-	velocity.y += fall * delta
-	
-	if velocity.y > maxfall:
-		velocity.y = maxfall
+	velocity.x = xspd
+	velocity.y += grav * delta
+	velocity.y = min(velocity.y, maxfall)
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		go()
+		velocity.y = jmp
 	
-	turn(delta)
+	var angle = tiltup if velocity.y < 0 else tiltdown * (velocity.y / maxfall)
+	var spd = 1.0 if velocity.y < 0 else 2.5
+	rotation_degrees = lerp(rotation_degrees, angle, spd * delta)
+	
 	move_and_slide()
-	hit()
-
-func go():
-	velocity.y = jump
-
-func turn(delta):
-	var angle = 0.0
-	var speed = 0.0
 	
-	if velocity.y < 0:
-		angle = tiltup
-		speed = rotup
-	else:
-		var ratio = velocity.y / maxfall
-		angle = tiltdown * ratio
-		speed = rotdown
+	checkbounds()
 	
-	rotation_degrees = lerp(rotation_degrees, angle, speed * delta)
+	if get_slide_collision_count() > 0:
+		kill()
+		return
+	
+	checkhit()
 
-func hit():
-	for i in range(get_slide_collision_count()):
-		var col = get_slide_collision(i)
-		if col:
-			kill()
-			break
+func checkbounds():
+	var cam = get_viewport().get_camera_2d()
+	if not cam:
+		return
+	
+	var vsize = get_viewport_rect().size
+	var zoom = cam.zoom
+	var vheight = vsize.y / zoom.y
+	
+	var camy = cam.global_position.y
+	var top = camy - vheight/2 + margin
+	var btm = camy + vheight/2 - margin
+	
+	if global_position.y < top or global_position.y > btm:
+		kill()
+
+func checkhit():
+	var obs = get_parent().get_node_or_null("obstaclemanager")
+	if obs and obs.check_collision(global_position, Vector2(20, 20)):
+		kill()
 
 func kill():
 	if not alive:
@@ -70,12 +74,8 @@ func kill():
 	if sprite:
 		sprite.stop()
 	
-	set_physics_process(false)
-	
 	if get_parent().has_method("end"):
 		get_parent().end()
-	
-	print("Player died!")
 
 func restart():
 	alive = true
@@ -86,3 +86,6 @@ func restart():
 	if sprite:
 		sprite.play("fly")
 		#i am here to type my resume cz tommorow is my pt test an dher ei am bscoing death
+		''''''
+		
+		

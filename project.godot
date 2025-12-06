@@ -13,6 +13,10 @@ config_version=5
 config/name="knight_crow"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
