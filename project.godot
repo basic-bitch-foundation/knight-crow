@@ -11,7 +11,12 @@ config_version=5
 [application]
 
 config/name="knight_crow"
+run/main_scene="uid://rh4opm8qtdds"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+
+[autoload]
+
+audio="*res://audio.gd"
 
 [display]
 

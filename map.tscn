@@ -1,10 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://dhk74gbl8hh16"]
+[gd_scene load_steps=14 format=3 uid="uid://dhk74gbl8hh16"]
 
 [ext_resource type="Script" uid="uid://c6aul38x7iq5f" path="res://map.gd" id="1_c7s6e"]
 [ext_resource type="PackedScene" uid="uid://cjp30fovbonl8" path="res://player.tscn" id="2_p5pve"]
 [ext_resource type="Texture2D" uid="uid://bck6tncerfqfj" path="res://backgroundknight_crow.png" id="3_urblq"]
 [ext_resource type="Script" uid="uid://bl8e6lverclt2" path="res://obstaclemanager.gd" id="5_iw27f"]
 [ext_resource type="Texture2D" uid="uid://ba8lijeba7igq" path="res://towers_crow.png" id="5_urblq"]
+[ext_resource type="Texture2D" uid="uid://bcgmhgnr1cbyg" path="res://images/image-removebg-preview (7).png" id="6_iw27f"]
+[ext_resource type="Texture2D" uid="uid://b1q7cam5f1pvd" path="res://images/pixel-text.png" id="7_71pa8"]
+[ext_resource type="Texture2D" uid="uid://ch6e5f7ppbawx" path="res://images/pause (1)_cropped_processed_by_imagy.png" id="8_gqbix"]
+[ext_resource type="Texture2D" uid="uid://cq1kfrujadvyo" path="res://images/playbtn.png" id="9_oysan"]
+[ext_resource type="Texture2D" uid="uid://c7jce55sihc55" path="res://images/0.png" id="10_oysan"]
+[ext_resource type="Texture2D" uid="uid://b0wsdnqf5tmnu" path="res://images/:.png" id="11_sb2pt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iw27f"]
 texture = ExtResource("5_urblq")
@@ -70,3 +76,65 @@ texture_filter = 1
 position = Vector2(1723, 323)
 scale = Vector2(7, 7)
 texture = ExtResource("3_urblq")
+
+[node name="prts" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(368, 529)
+scale = Vector2(3, 3)
+texture = ExtResource("7_71pa8")
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="over" type="Sprite2D" parent="ui"]
+z_index = 20
+texture_filter = 1
+position = Vector2(554.00006, 344.00003)
+scale = Vector2(2.3, 2.3)
+texture = ExtResource("6_iw27f")
+
+[node name="pause" type="TextureButton" parent="ui"]
+process_mode = 3
+offset_left = 44.000004
+offset_top = 35.000004
+offset_right = 546.4166
+offset_bottom = 607.85095
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+toggle_mode = true
+texture_normal = ExtResource("8_gqbix")
+texture_pressed = ExtResource("9_oysan")
+
+[node name="score" type="Node2D" parent="ui"]
+position = Vector2(190.00002, 111.00002)
+scale = Vector2(5, 5)
+
+[node name="d1" type="Sprite2D" parent="ui/score"]
+z_index = 2
+texture_filter = 1
+texture = ExtResource("10_oysan")
+
+[node name="d2" type="Sprite2D" parent="ui/score"]
+z_index = 2
+texture_filter = 1
+position = Vector2(10.400002, 0)
+texture = ExtResource("10_oysan")
+
+[node name="d3" type="Sprite2D" parent="ui/score"]
+z_index = 2
+texture_filter = 1
+position = Vector2(25.200005, 0)
+texture = ExtResource("10_oysan")
+
+[node name="d4" type="Sprite2D" parent="ui/score"]
+z_index = 2
+texture_filter = 1
+position = Vector2(36.79998, 0)
+scale = Vector2(1.0023478, 0.99774396)
+texture = ExtResource("10_oysan")
+
+[node name="Sprite2D" type="Sprite2D" parent="ui/score"]
+texture_filter = 1
+position = Vector2(18, 0)
+texture = ExtResource("11_sb2pt")
+
+[connection signal="toggled" from="ui/pause" to="." method="_on_pause_toggled"]

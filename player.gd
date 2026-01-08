@@ -13,21 +13,39 @@ const tiltdown = 27.0
 @onready var body = $CollisionShape2D
 
 var alive = true
+var game_strt = false
 
 func _ready():
 	if sprite:
 		sprite.play("fly")
+	
+	set_physics_process(false)
+func _input(evenr):
+	if evenr.is_action_pressed("ui_accept") and not game_strt:
+		game_strt = true
+		var map = get_parent()
+		if map and map.has_node("prts"):
+			map.get_node("prts").visible = false 
+		set_physics_process(true)
+		
+		
 
 func _physics_process(delta):
-	if not alive:
+	if not alive or not game_strt:
 		return
 	
 	velocity.x = xspd
-	velocity.y += grav * delta
+	velocity.y += grav * delta 
 	velocity.y = min(velocity.y, maxfall)
 	
 	if Input.is_action_just_pressed("ui_accept"):
+		
+			
 		velocity.y = jmp
+		
+		 
+		audio.play_jump()
+		
 	
 	var angle = tiltup if velocity.y < 0 else tiltdown * (velocity.y / maxfall)
 	var spd = 1.0 if velocity.y < 0 else 2.5
@@ -58,7 +76,7 @@ func checkbounds():
 	
 	if global_position.y < top or global_position.y > btm:
 		kill()
-
+  
 func checkhit():
 	var obs = get_parent().get_node_or_null("obstaclemanager")
 	if obs and obs.check_collision(global_position, Vector2(20, 20)):
@@ -69,6 +87,7 @@ func kill():
 		return
 	
 	alive = false
+	audio.play_hit()
 	velocity = Vector2.ZERO
 	
 	if sprite:
@@ -79,13 +98,13 @@ func kill():
 
 func restart():
 	alive = true
+	game_strt = false 
 	velocity = Vector2.ZERO
 	rotation_degrees = 0
 	set_physics_process(true)
 	
 	if sprite:
 		sprite.play("fly")
-		#i am here to type my resume cz tommorow is my pt test an dher ei am bscoing death
-		''''''
 		
-		
+	
+	

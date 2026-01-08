@@ -1,1 +1,5 @@
+res://map.tscn
 res://map.gd
+res://obstaclemanager.gd
+res://player.gd
+res://main.tscn
